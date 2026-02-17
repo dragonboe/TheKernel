@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Kernel Bar — Community Rules</title>
+  <title>The Kernel Bar — House Rules</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #0f0b08;
-      --bg2:       #19120c;
-      --surface:   #231810;
-      --amber:     #d4873a;
-      --amber-lit: #f0a84e;
-      --cream:     #f2e8d5;
-      --muted:     #9a8470;
-      --rule-line: #3a2a1a;
-      --glow:      rgba(212, 135, 58, 0.18);
+      --bg:         #0f0b08;
+      --surface:    #1c1209;
+      --wood:       #1a1007;
+      --amber:      #d4873a;
+      --amber-lit:  #f0a84e;
+      --amber-dim:  #a0632a;
+      --cream:      #f2e8d5;
+      --muted:      #9a8470;
+      --chalk:      #e8dfc8;
+      --rule-line:  #3a2218;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -29,41 +29,85 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
+      /* subtle wood-plank lines */
+      background-image:
+        repeating-linear-gradient(
+          180deg,
+          transparent 0px, transparent 38px,
+          rgba(0,0,0,0.15) 38px, rgba(0,0,0,0.15) 40px,
+          transparent 40px, transparent 80px
+        );
     }
 
-    /* ── grain overlay ── */
+    /* grain */
     body::before {
       content: '';
       position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 999;
-      opacity: 0.55;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.55;
     }
 
-    /* ── warm vignette ── */
+    /* warm vignette */
     body::after {
       content: '';
       position: fixed; inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(212,135,58,0.06) 0%, transparent 65%),
-                  radial-gradient(ellipse at 50% 100%, rgba(15,11,8,0.9) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 45% at 50% -5%, rgba(212,135,58,0.09) 0%, transparent 100%),
+        radial-gradient(ellipse at 50% 110%, rgba(0,0,0,0.9) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── layout ── */
     .page {
       position: relative; z-index: 1;
-      max-width: 780px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 0 28px 80px;
+      padding: 0 28px 90px;
     }
 
-    /* ── header ── */
+    /* ══════════════════════
+       HEADER — chalkboard
+    ══════════════════════ */
     .header {
       text-align: center;
-      padding: 70px 0 48px;
+      padding: 58px 0 32px;
+    }
+
+    .sign-wrap {
+      display: inline-block;
       position: relative;
+      opacity: 0;
+      animation: fadeSlideDown 1s ease 0.15s forwards;
+    }
+
+    /* hanging wire */
+    .sign-wrap::before {
+      content: '';
+      position: absolute;
+      top: -22px; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 24px;
+      background: linear-gradient(180deg, var(--amber-dim), rgba(160,99,42,0));
+    }
+
+    .chalkboard {
+      background: #131009;
+      border: 3px solid #2e1c0e;
+      border-radius: 4px;
+      padding: 40px 52px 36px;
+      position: relative;
+      box-shadow:
+        inset 0 0 80px rgba(0,0,0,0.65),
+        0 14px 48px rgba(0,0,0,0.75),
+        0 2px 0 var(--amber-dim),
+        0 -1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* inner chalk border */
+    .chalkboard::before {
+      content: '';
+      position: absolute; inset: 7px;
+      border: 1px dashed rgba(232,223,200,0.07);
+      border-radius: 2px;
+      pointer-events: none;
     }
 
     .verified-badge {
@@ -71,261 +115,325 @@
       align-items: center;
       gap: 6px;
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.18em;
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--amber);
-      border: 1px solid var(--amber);
+      border: 1px solid rgba(212,135,58,0.38);
       border-radius: 30px;
-      padding: 4px 12px;
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeSlideDown 0.8s ease 0.2s forwards;
+      padding: 4px 13px;
+      margin-bottom: 24px;
     }
 
     .verified-badge svg {
-      width: 12px; height: 12px; fill: var(--amber);
-    }
-
-    .logo-wrap {
-      opacity: 0;
-      animation: fadeSlideDown 0.9s ease 0.35s forwards;
+      width: 11px; height: 11px;
+      stroke: var(--amber); fill: none;
+      stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
     }
 
     .logo-icon {
-      font-size: 38px;
+      font-size: 46px;
       line-height: 1;
-      margin-bottom: 14px;
       display: block;
-      filter: drop-shadow(0 0 18px rgba(212,135,58,0.5));
+      margin-bottom: 14px;
+      animation: flicker 4.5s ease-in-out infinite;
+    }
+
+    @keyframes flicker {
+      0%,100% { filter: drop-shadow(0 0 14px rgba(212,135,58,0.55)); }
+      18%      { filter: drop-shadow(0 0 24px rgba(240,168,78,0.78)); }
+      42%      { filter: drop-shadow(0 0 9px  rgba(212,135,58,0.38)); }
+      63%      { filter: drop-shadow(0 0 28px rgba(240,168,78,0.82)); }
+      80%      { filter: drop-shadow(0 0 11px rgba(212,135,58,0.42)); }
+    }
+
+    .chalk-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(232,223,200,0.35);
+      margin-bottom: 10px;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 7vw, 68px);
+      font-size: clamp(40px, 7vw, 66px);
       font-weight: 900;
       font-style: italic;
       line-height: 1.0;
-      color: var(--cream);
-      text-shadow: 0 0 60px rgba(212,135,58,0.25);
+      color: var(--chalk);
+      text-shadow: 0 0 40px rgba(212,135,58,0.18), 0 2px 0 rgba(0,0,0,0.55);
       letter-spacing: -0.01em;
+    }
+
+    .chalk-rule {
+      width: 72px; height: 1px;
+      background: rgba(232,223,200,0.22);
+      margin: 14px auto 0;
     }
 
     .tagline {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.22em;
+      font-size: 10px;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
-      color: var(--amber);
-      margin-top: 10px;
-      opacity: 0;
-      animation: fadeSlideDown 0.9s ease 0.55s forwards;
-    }
-
-    .divider-ornament {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin: 36px 0 42px;
+      color: rgba(212,135,58,0.65);
+      margin-top: 16px;
       opacity: 0;
       animation: fadeIn 1s ease 0.7s forwards;
     }
 
-    .divider-ornament::before,
-    .divider-ornament::after {
+    /* ── divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 44px 0 36px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.85s forwards;
+    }
+
+    .divider::before,
+    .divider::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--amber), transparent);
-      max-width: 180px;
+      background: linear-gradient(90deg, transparent, var(--amber-dim), transparent);
     }
 
-    .divider-ornament span {
-      color: var(--amber);
-      font-size: 18px;
-      opacity: 0.8;
+    .divider-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      padding: 0 4px;
     }
 
     /* ── intro ── */
     .intro {
       text-align: center;
       font-style: italic;
-      font-size: 17px;
+      font-size: 16.5px;
       color: var(--muted);
-      line-height: 1.8;
-      max-width: 560px;
-      margin: 0 auto 56px;
+      line-height: 1.85;
+      max-width: 540px;
+      margin: 0 auto 50px;
       opacity: 0;
-      animation: fadeIn 1s ease 0.85s forwards;
+      animation: fadeIn 1s ease 1s forwards;
     }
 
-    /* ── rules list ── */
+    /* ── section label ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.1s forwards;
+    }
+
+    .section-label span {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      white-space: nowrap;
+    }
+
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--rule-line);
+    }
+
+    /* ══════════════════════
+       RULE CARDS
+    ══════════════════════ */
     .rules-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
     }
 
     .rule-card {
-      background: var(--surface);
+      background:
+        repeating-linear-gradient(
+          92deg,
+          rgba(255,255,255,0.005) 0px, rgba(255,255,255,0.005) 1px,
+          transparent 1px, transparent 24px
+        ),
+        var(--wood);
       border: 1px solid var(--rule-line);
-      border-left: 3px solid var(--amber);
-      border-radius: 6px;
-      padding: 28px 32px 26px;
+      border-left: 3px solid var(--amber-dim);
+      border-radius: 3px;
+      padding: 24px 30px 22px;
       position: relative;
       overflow: hidden;
       opacity: 0;
-      transform: translateY(22px);
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      transform: translateY(18px);
+      transition: border-left-color 0.3s, box-shadow 0.3s, transform 0.28s;
+    }
+
+    /* top-edge candle glow */
+    .rule-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--amber-dim) 0%, transparent 55%);
+      opacity: 0.45;
     }
 
     .rule-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.55s ease, transform 0.55s ease, border-color 0.3s, box-shadow 0.3s;
+      opacity: 1; transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-left-color 0.3s, box-shadow 0.3s;
     }
 
     .rule-card:hover {
       border-left-color: var(--amber-lit);
-      box-shadow: 0 0 0 1px rgba(212,135,58,0.12), 0 8px 32px rgba(0,0,0,0.4), inset 0 0 40px rgba(212,135,58,0.03);
-      transform: translateX(3px);
-    }
-
-    .rule-card::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 120px; height: 120px;
-      background: radial-gradient(circle at top right, rgba(212,135,58,0.06), transparent 70%);
-      pointer-events: none;
+      box-shadow:
+        0 0 0 1px rgba(212,135,58,0.09),
+        0 6px 28px rgba(0,0,0,0.55),
+        inset 0 0 50px rgba(212,135,58,0.03);
+      transform: translateX(4px);
     }
 
     .rule-header {
       display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      margin-bottom: 12px;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 10px;
     }
 
     .rule-number {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      color: var(--amber);
-      background: rgba(212,135,58,0.1);
-      border: 1px solid rgba(212,135,58,0.25);
-      border-radius: 4px;
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      color: var(--amber-dim);
+      background: rgba(212,135,58,0.07);
+      border: 1px solid rgba(212,135,58,0.18);
+      border-radius: 3px;
       padding: 3px 8px;
       white-space: nowrap;
-      margin-top: 3px;
+      flex-shrink: 0;
     }
 
     .rule-title {
       font-family: 'Playfair Display', serif;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--cream);
-      line-height: 1.3;
+      line-height: 1.25;
+    }
+
+    .rule-line {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212,135,58,0.16), transparent);
+      margin: 0 0 12px;
     }
 
     .rule-body {
-      font-size: 15px;
-      line-height: 1.78;
-      color: rgba(242, 232, 213, 0.72);
-      padding-left: 58px;
+      font-size: 14.5px;
+      line-height: 1.82;
+      color: rgba(242, 232, 213, 0.67);
+      padding-left: 56px;
     }
 
-    .rule-body strong, .rule-body b {
+    .rule-body strong {
       color: var(--amber-lit);
       font-weight: 600;
     }
 
-    .rule-note {
-      display: inline-block;
-      margin-top: 10px;
-      background: rgba(212,135,58,0.08);
+    /* bartender's sticky note */
+    .bar-note {
+      display: block;
+      margin-top: 13px;
+      background: rgba(15, 9, 4, 0.7);
       border: 1px solid rgba(212,135,58,0.2);
-      border-radius: 4px;
-      padding: 8px 14px;
+      border-left: 3px solid var(--amber);
+      border-radius: 2px;
+      padding: 10px 14px;
       font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: rgba(240, 168, 78, 0.85);
-      line-height: 1.6;
+      font-size: 11.5px;
+      color: rgba(240, 168, 78, 0.80);
+      line-height: 1.65;
     }
 
-    /* ── footer ── */
+    .bar-note::before {
+      content: '— Bartender says: ';
+      font-style: italic;
+      opacity: 0.55;
+    }
+
+    /* ══════════════════════
+       FOOTER PLAQUE
+    ══════════════════════ */
     .footer {
       text-align: center;
-      margin-top: 64px;
+      margin-top: 70px;
       opacity: 0;
-      animation: fadeIn 1s ease 1.8s forwards;
+      animation: fadeIn 1s ease 1.9s forwards;
     }
 
-    .footer-banner {
-      background: linear-gradient(135deg, rgba(212,135,58,0.12), rgba(212,135,58,0.05));
-      border: 1px solid rgba(212,135,58,0.25);
-      border-radius: 8px;
-      padding: 30px 36px;
+    .footer-plaque {
+      display: inline-block;
       position: relative;
-      overflow: hidden;
+      background: var(--wood);
+      border: 2px solid var(--rule-line);
+      border-top: 2px solid var(--amber-dim);
+      border-radius: 4px;
+      padding: 28px 52px 26px;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.65), inset 0 1px 0 rgba(212,135,58,0.1);
     }
 
-    .footer-banner::before {
-      content: '';
+    /* corner screws */
+    .screw {
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(212,135,58,0.08), transparent 70%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber-dim);
+      opacity: 0.35;
     }
+    .screw-tl { top: 9px;  left: 11px;  }
+    .screw-tr { top: 9px;  right: 11px; }
+    .screw-bl { bottom: 9px; left: 11px; }
+    .screw-br { bottom: 9px; right: 11px; }
 
     .footer-tagline {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--amber-lit);
-      margin-bottom: 8px;
-      position: relative;
-    }
-
-    .footer-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      text-transform: uppercase;
-      position: relative;
-    }
-
-    .footer-sub span {
-      color: var(--amber);
+      line-height: 1.5;
     }
 
     .footer-meta {
-      margin-top: 28px;
+      margin-top: 24px;
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      color: rgba(154,132,112,0.4);
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      color: rgba(154,132,112,0.32);
       text-transform: uppercase;
     }
 
-    /* ── keyframes ── */
+    /* ── animations ── */
     @keyframes fadeSlideDown {
-      from { opacity: 0; transform: translateY(-14px); }
+      from { opacity: 0; transform: translateY(-16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
     }
 
-    /* ── responsive ── */
-    @media (max-width: 520px) {
-      .rule-card { padding: 22px 20px 20px; }
-      .rule-body { padding-left: 0; margin-top: 10px; }
-      .rule-header { flex-wrap: wrap; }
+    @media (max-width: 560px) {
+      .chalkboard   { padding: 30px 22px 28px; }
+      .rule-body    { padding-left: 0; margin-top: 10px; }
+      .rule-header  { flex-wrap: wrap; }
+      .footer-plaque { padding: 22px 24px; }
     }
   </style>
 </head>
@@ -335,112 +443,134 @@
 
   <!-- HEADER -->
   <header class="header">
-    <div class="verified-badge">
-      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Verified Community
+    <div class="sign-wrap">
+      <div class="chalkboard">
+
+        <div class="verified-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+          </svg>
+          Verified Community
+        </div>
+
+        <span class="logo-icon">🍺</span>
+        <p class="chalk-eyebrow">Est. right here, right now</p>
+        <h1>The Kernel Bar</h1>
+        <div class="chalk-rule"></div>
+
+      </div>
     </div>
 
-    <div class="logo-wrap">
-      <span class="logo-icon">🍺</span>
-      <h1>The Kernel Bar</h1>
-    </div>
-
-    <p class="tagline">Community Rules &amp; House Standards</p>
+    <p class="tagline">House Rules &amp; Bar Standards</p>
   </header>
 
-  <div class="divider-ornament"><span>✦</span></div>
+  <div class="divider">
+    <span class="divider-text">Posted by the bar</span>
+  </div>
 
   <p class="intro">
-    Pull up a stool. Everyone's welcome here — and we keep it that way
-    by holding a few things sacred. Read up, respect the house, and enjoy your stay.
+    Grab a seat. We keep the lights low and the door open for everyone.
+    All we ask is you respect the house, the regulars, and the staff.
+    Good drinks, good people — that's all this place is about.
   </p>
 
   <!-- RULES -->
+  <div class="section-label"><span>§ House Rules</span></div>
+
   <div class="rules-list" id="rules">
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 01</span>
-        <span class="rule-title">Use Common Sense</span>
+        <span class="rule-number">§ 01</span>
+        <span class="rule-title">Read the Room</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        We can't write a rule for every situation — and we won't try. If something feels off, mean, disruptive, or sketchy, that's your cue: <strong>don't post it.</strong>
-        When in doubt, choose kindness. Or just step away.
+        Any good regular knows when something's off. We can't chalk up a rule for every edge case —
+        and we won't. If it feels mean, sketchy, or out of place, <strong>don't send it.</strong>
+        Good judgment is the first thing we ask for when you walk through the door.
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 02</span>
-        <span class="rule-title">Kindness Is Non-Negotiable</span>
+        <span class="rule-number">§ 02</span>
+        <span class="rule-title">Kindness Is on the House</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        Treat people the way you'd want to be treated here. No personal attacks, insults, passive-aggressive jabs, or dragging people through the mud.
-        <br /><br />
-        <div class="rule-note">
-          ⚠️ Walk-Away Rule — If you're heated or can't stay civil, mute yourself and step out.
-          Come back when you're good. Arguments don't belong at the bar.
-        </div>
+        Treat everyone the way you'd want to be treated at your favourite spot.
+        No personal attacks, cheap shots, passive-aggressive jabs, or dragging people.
+        This is a bar, not a courtroom.
+        <span class="bar-note">If you're heated, step outside and cool off. Come back when you're good. Fights get you cut off.</span>
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 03</span>
-        <span class="rule-title">Zero Tolerance for Hate &amp; Toxicity</span>
+        <span class="rule-number">§ 03</span>
+        <span class="rule-title">No Hate. No Exceptions.</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        No hate speech, discriminatory "jokes," bullying, dog-whistles, or targeted harassment — <strong>full stop.</strong>
-        This includes anything that punches down or makes someone feel unsafe because of who they are.
-        We don't do second chances on this one.
+        Hate speech, discriminatory "jokes," bullying, dog-whistles, targeted harassment —
+        none of it has a tab here. <strong>Full stop.</strong>
+        Anyone who makes another person feel unsafe for who they are gets shown the door — permanently.
+        We don't run second-chance specials on this one.
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 04</span>
-        <span class="rule-title">Respect Privacy &amp; Boundaries</span>
+        <span class="rule-number">§ 04</span>
+        <span class="rule-title">What's Said at the Bar, Stays at the Bar</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        Don't share anyone's personal information — yours or others' — without <strong>clear, explicit consent.</strong>
-        No doxxing, unwanted photos, real names, locations, or anything that crosses someone's personal line.
-        What happens at the bar, stays at the bar.
+        Don't share anyone's personal info — theirs or yours — without <strong>clear consent.</strong>
+        No doxxing, no unwanted photos, no real names or locations dropped without permission.
+        Regulars trust this place. Keep it that way.
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 05</span>
-        <span class="rule-title">Keep It Civil &amp; On-Topic</span>
+        <span class="rule-number">§ 05</span>
+        <span class="rule-title">Debate the Idea, Not the Person</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        Debate ideas, not people. Constructive criticism is welcome — attacking someone's character is not.
-        Stay in the right channels, don't spam or flood, and keep the ear-rape pings to zero.
-        <strong>No excessive caps, zalgo text, or chaos posting.</strong>
+        Good conversation is welcome here — we love a spirited back-and-forth.
+        Criticise ideas all you want, but leave character attacks at the door.
+        Stay in your lane channel-wise, don't spam or flood, and <strong>no ear-rape pings,
+        zalgo text, or all-caps meltdowns.</strong> Keep the noise down.
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 06</span>
-        <span class="rule-title">No Illegal Stuff. No NSFW.</span>
+        <span class="rule-number">§ 06</span>
+        <span class="rule-title">Keep It Clean &amp; Legal</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        Keep everything <strong>legal and SFW.</strong> No porn, gore, explicit content, piracy links, or drug talk.
-        This space is open to all ages and we intend to keep it that way.
-        If you have to wonder whether it's okay — it probably isn't.
+        We run a clean establishment. <strong>No porn, gore, piracy links, explicit content, or drug talk.</strong>
+        If you'd be embarrassed posting it with everyone watching,
+        it doesn't belong here. All ages are welcome — and we mean to keep it that way.
       </p>
     </div>
 
     <div class="rule-card">
       <div class="rule-header">
-        <span class="rule-number">RULE 07</span>
-        <span class="rule-title">Staff Decisions Are Final</span>
+        <span class="rule-number">§ 07</span>
+        <span class="rule-title">Staff Word Is Final</span>
       </div>
+      <div class="rule-line"></div>
       <p class="rule-body">
-        Mods and admins enforce these rules at their discretion. If you're warned or punished,
-        accept it gracefully and move on. Arguing publicly or repeatedly sliding into staff DMs
-        <strong>will only make your situation worse.</strong> Trust the process.
+        The mods and admins are the staff here. They call the shots and their word stands.
+        If you get warned or cut off — take it, walk it off, move on.
+        Arguing publicly or blowing up staff DMs <strong>only digs the hole deeper.</strong>
+        Respect the people keeping the lights on.
       </p>
     </div>
 
@@ -448,8 +578,12 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-banner">
-      <p class="footer-tagline">"Keep it positive, chill, and safe for everyone."</p>
+    <div class="footer-plaque">
+      <span class="screw screw-tl"></span>
+      <span class="screw screw-tr"></span>
+      <span class="screw screw-bl"></span>
+      <span class="screw screw-br"></span>
+      <p class="footer-tagline">"Keep it positive, keep it chill,<br>keep it safe for everyone."</p>
     </div>
     <p class="footer-meta">The Kernel Bar &nbsp;·&nbsp; Verified Community &nbsp;·&nbsp; House Rules v1.0</p>
   </footer>
@@ -457,19 +591,17 @@
 </div>
 
 <script>
-  // Intersection observer — stagger card reveals
   const cards = document.querySelectorAll('.rule-card');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
         const card = entry.target;
-        const delay = Array.from(cards).indexOf(card) * 90;
+        const delay = Array.from(cards).indexOf(card) * 85;
         setTimeout(() => card.classList.add('visible'), delay);
         observer.unobserve(card);
       }
     });
-  }, { threshold: 0.08 });
-
+  }, { threshold: 0.07 });
   cards.forEach(c => observer.observe(c));
 </script>
 
